@@ -13,7 +13,7 @@ pipeline {
                 script {
                     app = docker.build("eskislav/train-schedule")
                     app.inside {
-                        sh "echo $(curl localhost:8080)"
+                        sh 'echo $(curl localhost:8080)'
                     }
                 }
             }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry("", "docker_account"){
-                        app.push("$(env.BUILD_NUMBER)")
+                        app.push('$(env.BUILD_NUMBER)')
                         app.push("latest")
                     }
                 }
