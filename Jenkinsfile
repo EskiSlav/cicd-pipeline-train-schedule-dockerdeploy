@@ -8,14 +8,20 @@ pipeline {
                 archiveArtifacts artifacts: 'dist/trainSchedule.zip'
             }
         }
-        stage('BuildDockerImage'){
-            steps {
-                sh "docker build -t eskislav/train-schedule ."
+        stage('Build Docker Image'){
+            script {
+                app = docker.build("eskislav/train-schedule")
+                app.inside {
+                    sh "echo $(curl localhost:8080)"
+                }
             }
         }
-        stage('PushDockerImage'){
-            steps {
-                sh "docker push eskislav/train-schedule"
+        stage('Push Docker Image'){
+            script {
+                docker.withRegistry("", "docker_account"){
+                    app.push("$(env.BUILD_NUMBER)")
+                    app.push("latest")
+                }
             }
         }
     }
