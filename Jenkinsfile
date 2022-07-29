@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Deploy To Production'){
             steps {
-                withCredentials([usernamePassword(credentialsId:'webserver_deploy', usernameVariable: 'USERNAME', usernamePassword: 'PASSWORD')]){
+                withCredentials([usernamePassword(credentialsId:'webserver_deploy', usernameVariable: 'USERNAME', usernamePassword: 'USERPASS')]){
                     script {
                         sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@${env.prod_ip} \"docker pull <DOCKER_HUB_USERNAME>/train-schedule:${env.BUILD_NUMBER}\""
                         try {
