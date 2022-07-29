@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image'){
             steps {
                 script {
-                    app = docker.build("eskislav/train-schedule")
+                    app = docker.build('eskislav/train-schedule')
                     app.inside {
                         sh 'echo $(curl localhost:8080)'
                     }
@@ -21,9 +21,9 @@ pipeline {
         stage('Push Docker Image'){
             steps {
                 script {
-                    docker.withRegistry("", "docker_account"){
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker_account'){
                         app.push('$(env.BUILD_NUMBER)')
-                        app.push("latest")
+                        app.push('latest')
                     }
                 }
             }
